@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* CUSTOM STYLES FOR REACT CALENDAR */
+.react-calendar {
+  width: 100% !important;
+  border: none !important;
+  font-family: inherit !important;
+  line-height: 1.75em !important;
+}
+
+.react-calendar__tile--active {
+  background: #5c7cfa !important;
+  color: white !important;
+  border-radius: 5px !important;
+}
+
+.react-calendar__tile--now {
+  background: #edf2ff !important;
+  border-radius: 5px !important;
+}
+
+.react-calendar__navigation button {
+  font-weight: 600 !important;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #4c6ef5 !important;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: #f1f3f5 !important;
+  border-radius: 5px !important;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #f1f3f5 !important;
+  border-radius: 5px !important;
+}
