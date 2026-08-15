@@ -916,6 +916,32 @@ export const announcementsData = [
 ];
 
 
+export const attendanceData = [
+  { id: 1, student: "John Doe", class: "1A", date: "2025-01-01", present: true },
+  { id: 2, student: "Jane Doe", class: "5A", date: "2025-01-01", present: true },
+  { id: 3, student: "Mike Geller", class: "5A", date: "2025-01-01", present: false },
+  { id: 4, student: "Jay French", class: "5A", date: "2025-01-02", present: true },
+  { id: 5, student: "Jane Smith", class: "5A", date: "2025-01-02", present: false },
+  { id: 6, student: "Anna Santiago", class: "5A", date: "2025-01-03", present: true },
+  { id: 7, student: "Allen Black", class: "5A", date: "2025-01-03", present: true },
+  { id: 8, student: "Ophelia Castro", class: "5A", date: "2025-01-04", present: false },
+  { id: 9, student: "Derek Briggs", class: "5A", date: "2025-01-04", present: true },
+  { id: 10, student: "John Glover", class: "5A", date: "2025-01-05", present: true },
+];
+
+export const messagesData = [
+  { id: 1, sender: "John Doe", subject: "About the Math exam", date: "2025-01-01", read: false },
+  { id: 2, sender: "Jane Doe", subject: "Parent-teacher meeting", date: "2025-01-01", read: true },
+  { id: 3, sender: "Mike Geller", subject: "Field trip permission", date: "2025-01-02", read: false },
+  { id: 4, sender: "Jay French", subject: "Homework submission", date: "2025-01-02", read: true },
+  { id: 5, sender: "Jane Smith", subject: "Absence notice", date: "2025-01-03", read: true },
+  { id: 6, sender: "Anna Santiago", subject: "Grade inquiry", date: "2025-01-03", read: false },
+  { id: 7, sender: "Allen Black", subject: "Schedule change", date: "2025-01-04", read: true },
+  { id: 8, sender: "Ophelia Castro", subject: "Library book overdue", date: "2025-01-04", read: true },
+  { id: 9, sender: "Derek Briggs", subject: "Sports team tryouts", date: "2025-01-05", read: false },
+  { id: 10, sender: "John Glover", subject: "Fee payment reminder", date: "2025-01-05", read: true },
+];
+
 // YOU SHOULD CHANGE THE DATES OF THE EVENTS TO THE CURRENT DATE TO SEE THE EVENTS ON THE CALENDAR
 export const calendarEvents = [
   {
