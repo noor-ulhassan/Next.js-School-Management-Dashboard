@@ -1,15 +1,20 @@
 {
   "name": "lama-dev-next-dashboard",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma skills sync || exit 0",
+    "contract:emit": "prisma contract emit"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.0",
+    "@prisma/orm-postgres": "^8.0.0-rc.7",
+    "dotenv": "^17.4.2",
     "next": "^14.2.35",
     "react": "^18",
     "react-calendar": "^6.0.1",
@@ -20,12 +25,14 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@prisma/cli-engine": "^0.2.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "^14.2.35",
     "postcss": "^8",
+    "prisma": "^8.0.0-rc.10",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
