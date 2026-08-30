@@ -27,6 +27,7 @@ forgot.
 | 12 | `12-typescript-in-this-repo.md` | The TypeScript patterns and `tsconfig.json` choices. |
 | 13 | `13-roadmap-what-next.md` | The ordered list of everything left to build. |
 | 14 | `14-glossary.md` | One-line definitions of every term used in these logs. |
+| 15 | `15-prisma-schema.md` | The real `schema.prisma`: every model, field, relation, and enum, plus the ID strategy and the classic-vs-Next inconsistency to resolve. |
 
 ## The one rule
 
@@ -46,7 +47,9 @@ solo, so file 11 and file 13 are the parts with no external guide.
 
 The entire frontend is built and styled with fake data. Thirteen list screens, four
 role dashboards, detail pages, forms, and charts all work visually. The database layer
-(`src/prisma/`) was scaffolded on 2026-08-30 on the `backend` branch but still holds the
-Prisma starter's sample `User`/`Post` models and is not connected to a single screen.
-There is no authentication. The next real work is: write the true schema, connect
-Postgres, and start replacing `src/lib/data.ts` reads with database queries.
+(`src/prisma/`) was scaffolded on 2026-08-30 on the `backend` branch. The real
+`schema.prisma` (15 models, 2 enums) now exists (file 15) but is written in classic
+Prisma style while the client (`db.ts`) is still the Prisma Next scaffold - that
+mismatch needs resolving first. Nothing is connected to a screen and there is no auth.
+Next real work: pick one Prisma approach, generate the client, connect Postgres, then
+start replacing `src/lib/data.ts` reads with database queries.

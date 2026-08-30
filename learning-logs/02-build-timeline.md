@@ -181,6 +181,33 @@ running Postgres, no screen reads from `db`. This is exactly where the project s
 
 ---
 
+## 2026-08-30 - `3bbdb0f` "Prisma Schema File"  (branch: `backend`)
+
+**What:** Committed the `learning-logs/` folder (files 01-14). Deleted
+`src/prisma/contract.prisma`. Added `src/prisma/schema.prisma` - the real school data
+model: 15 models (`Admin`, `Student`, `Teacher`, `Parent`, `Grade`, `Class`, `Subject`,
+`Lesson`, `Exam`, `Assignment`, `Result`, `Attendance`, `Event`, `Announcement`) and 2
+enums (`UserSex`, `Day`). Written in **classic Prisma** syntax (`generator client`
+`prisma-client-js` + `datasource db` postgresql), matching the Lama Dev tutorial rather
+than the Prisma Next contract style set up in `6e2a7f8`.
+
+**Why:** Replace the placeholder `User`/`Post` sample with the actual domain so the
+backend can be built.
+
+**State after:** `schema.prisma` is complete and correct, but it does not match the rest
+of `src/prisma/` - `db.ts` is still the Prisma Next client, `contract.json`/`contract.d.ts`
+are stale, and `prisma.config.ts` points at the now-deleted `contract.prisma`. No client
+generated, no Postgres running, no migrations, no screen using it.
+
+**Concepts introduced:** classic Prisma `generator`/`datasource` blocks, `@id` without
+`@default` (id supplied by the app / auth provider), implicit many-to-many
+(`Teacher.subjects` <-> `Subject.teachers`), nullable vs required relations, the
+`Lesson` model as the hub for `Exam`/`Assignment`/`Attendance`, `Result` linked to
+exam-or-assignment with no DB-level "exactly one" guarantee. Full detail in
+`15-prisma-schema.md`.
+
+---
+
 ## Next entry goes here
 
 Template:
