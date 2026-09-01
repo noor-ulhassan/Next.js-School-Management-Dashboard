@@ -208,6 +208,49 @@ exam-or-assignment with no DB-level "exactly one" guarantee. Full detail in
 
 ---
 
+## 2026-08-31 - (uncommitted, branch: `backend`) "Contract works + DB created + seed"
+
+**What:** Made the Prisma Next path actually run end to end.
+- `src/prisma/contract.prisma` (the file that replaced `schema.prisma` again before this
+  session) had two things the SQL interpreter rejects: the implicit `Teacher <-> Subject`
+  many-to-many, and `DateTime` columns (they lower to `pg/timestamptz-temporal@1`, which
+  needs a global `Temporal` - Node 24 has none).
+  - Added an explicit join model `SubjectTeacher` (`@@id([subjectId, teacherId])`).
+  - Swapped every `DateTime` for `TimestamptzString` (same `timestamptz` column, but the
+    client reads/writes ISO strings instead of `Temporal`). `@default(now())` still works.
+- Fixed `.env`: the Docker Postgres 18 container publishes on host port **5434**, not
+  5432. `DATABASE_URL` now uses 5434.
+- `npx prisma contract emit` -> `contract.json` / `contract.d.ts` now hold the real 15
+  models (were still the `User`/`Post` sample).
+- `npx prisma db init` -> created all 15 tables + FKs + indexes, signed the DB.
+- `npx prisma db update` after the `TimestamptzString` swap -> re-signed (0 DDL ops, the
+  column type didn't change, only the client codec).
+- `npx prisma migration plan --name init` + `db migrate` -> wrote
+  `migrations/app/20260831T1701_baseline/` and recorded it (DB was already at that hash).
+- Added `src/prisma/seed.ts` (+ `npm run seed`, uses `tsx`). Wipes every table with a
+  raw `TRUNCATE ... RESTART IDENTITY CASCADE` then inserts: 2 admin, 6 grades, 6 classes,
+  10 subjects, 15 teachers, 15 subject-teacher links, 30 lessons, 25 parents, 50
+  students, 10 exams, 10 assignments, 10 results, 10 attendance, 5 events, 5
+  announcements. Idempotent - safe to re-run.
+
+**Why:** "Get migrations working like Lama Dev, and add a seed file." Lama Dev uses
+classic `prisma migrate dev` + `prisma/seed.ts`; neither exists in Prisma Next, so this
+is the closest equivalent (`db init` / `migration plan` / a plain `tsx` seed script).
+
+**Unlocked / State after:** Postgres is running (Docker, port 5434), all tables exist and
+are seeded, `prisma db verify` passes. `db.orm.public.<Model>` queries work (verified a
+relational `.include(...).count()` read). Ready to convert Server Component pages from
+`src/lib/data.ts` mocks to `await db.orm...`. New dev deps: `tsx`. New untracked:
+`migrations/`, `src/prisma/contract.prisma`, `src/prisma/seed.ts`.
+
+**Concepts introduced:** explicit join model for m2m in Prisma Next, `TimestamptzString`
+vs `DateTime` (the Temporal-codec trap), the `db` ref + `migrations/snapshots/<hash>/`
+content-addressed store, `db init` vs `db update` vs `migration plan`+`db migrate`, the
+raw lane needing a terminal (`db.raw.sql\`...\`.affectedCount().build()` then
+`db.runtime().execute(plan)`), no `prisma db seed` in Prisma Next.
+
+---
+
 ## Next entry goes here
 
 Template:

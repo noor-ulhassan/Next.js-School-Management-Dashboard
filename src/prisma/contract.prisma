@@ -1,66 +1,57 @@
 
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 model Admin {
   id       String @id
   username String @unique
 }
 
 model Student {
-  id          String       @id
-  username    String       @unique
+  id          String            @id
+  username    String            @unique
   name        String
   surname     String
-  email       String?      @unique
-  phone       String?      @unique
+  email       String?           @unique
+  phone       String?           @unique
   address     String
   img         String?
   bloodType   String
   sex         UserSex
-  createdAt   DateTime     @default(now())
+  createdAt   TimestamptzString @default(now())
   parentId    String
-  parent      Parent       @relation(fields: [parentId], references: [id])
+  parent      Parent            @relation(fields: [parentId], references: [id])
   classId     Int
-  class       Class        @relation(fields: [classId], references: [id])
+  class       Class             @relation(fields: [classId], references: [id])
   gradeId     Int
-  grade       Grade        @relation(fields: [gradeId], references: [id])
+  grade       Grade             @relation(fields: [gradeId], references: [id])
   attendances Attendance[]
   results     Result[]
 }
 
 model Teacher {
-  id        String    @id
-  username  String    @unique
+  id        String            @id
+  username  String            @unique
   name      String
   surname   String
-  email     String?   @unique
-  phone     String?   @unique
+  email     String?           @unique
+  phone     String?           @unique
   address   String
   img       String?
   bloodType String
   sex       UserSex
-  createdAt DateTime  @default(now())
-  subjects  Subject[]
+  createdAt TimestamptzString @default(now())
+  subjects  SubjectTeacher[]
   lessons   Lesson[]
   classes   Class[]
 }
 
 model Parent {
-  id        String    @id
-  username  String    @unique
+  id        String            @id
+  username  String            @unique
   name      String
   surname   String
-  email     String?   @unique
-  phone     String    @unique
+  email     String?           @unique
+  phone     String            @unique
   address   String
-  createdAt DateTime  @default(now())
+  createdAt TimestamptzString @default(now())
   students  Student[]
 }
 
@@ -88,18 +79,29 @@ model Class {
 }
 
 model Subject {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
-  teachers Teacher[]
+  id       Int              @id @default(autoincrement())
+  name     String           @unique
+  teachers SubjectTeacher[]
   lessons  Lesson[]
 }
 
+// Explicit join model for the Teacher <-> Subject many-to-many.
+// Prisma Next (v8) does not support implicit m2m — the join model is required.
+model SubjectTeacher {
+  subjectId Int
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  teacherId String
+  teacher   Teacher @relation(fields: [teacherId], references: [id])
+
+  @@id([subjectId, teacherId])
+}
+
 model Lesson {
-  id        Int      @id @default(autoincrement())
+  id        Int               @id @default(autoincrement())
   name      String
   day       Day
-  startTime DateTime
-  endTime   DateTime
+  startTime TimestamptzString
+  endTime   TimestamptzString
 
   subjectId   Int
   subject     Subject      @relation(fields: [subjectId], references: [id])
@@ -113,24 +115,24 @@ model Lesson {
 }
 
 model Exam {
-  id        Int      @id @default(autoincrement())
+  id        Int               @id @default(autoincrement())
   title     String
-  startTime DateTime
-  endTime   DateTime
+  startTime TimestamptzString
+  endTime   TimestamptzString
 
   lessonId Int
-  lesson   Lesson   @relation(fields: [lessonId], references: [id])
+  lesson   Lesson @relation(fields: [lessonId], references: [id])
   results  Result[]
 }
 
 model Assignment {
-  id        Int      @id @default(autoincrement())
+  id        Int               @id @default(autoincrement())
   title     String
-  startDate DateTime
-  dueDate   DateTime
+  startDate TimestamptzString
+  dueDate   TimestamptzString
 
   lessonId Int
-  lesson   Lesson   @relation(fields: [lessonId], references: [id])
+  lesson   Lesson @relation(fields: [lessonId], references: [id])
   results  Result[]
 }
 
@@ -147,8 +149,8 @@ model Result {
 }
 
 model Attendance {
-  id      Int      @id @default(autoincrement())
-  date    DateTime
+  id      Int               @id @default(autoincrement())
+  date    TimestamptzString
   present Boolean
 
   studentId String
@@ -158,21 +160,21 @@ model Attendance {
 }
 
 model Event {
-  id          Int      @id @default(autoincrement())
+  id          Int               @id @default(autoincrement())
   title       String
   description String
-  startTime   DateTime
-  endTime     DateTime
+  startTime   TimestamptzString
+  endTime     TimestamptzString
 
   classId Int?
   class   Class? @relation(fields: [classId], references: [id])
 }
 
 model Announcement {
-  id          Int      @id @default(autoincrement())
+  id          Int               @id @default(autoincrement())
   title       String
   description String
-  date        DateTime
+  date        TimestamptzString
 
   classId Int?
   class   Class? @relation(fields: [classId], references: [id])
