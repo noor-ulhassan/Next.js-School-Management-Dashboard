@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma skills sync || exit 0",
-    "contract:emit": "prisma contract emit"
+    "contract:emit": "prisma contract emit",
+    "seed": "tsx src/prisma/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.0",
@@ -34,6 +35,7 @@
     "postcss": "^8",
     "prisma": "^8.0.0-rc.10",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }

@@ -4,39 +4,162 @@
   "target": "postgres",
   "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
   "roots": {
-    "post": {
-      "model": "Post",
+    "admin": {
+      "model": "Admin",
       "namespace": "public"
     },
-    "user": {
-      "model": "User",
+    "announcement": {
+      "model": "Announcement",
+      "namespace": "public"
+    },
+    "assignment": {
+      "model": "Assignment",
+      "namespace": "public"
+    },
+    "attendance": {
+      "model": "Attendance",
+      "namespace": "public"
+    },
+    "class": {
+      "model": "Class",
+      "namespace": "public"
+    },
+    "event": {
+      "model": "Event",
+      "namespace": "public"
+    },
+    "exam": {
+      "model": "Exam",
+      "namespace": "public"
+    },
+    "grade": {
+      "model": "Grade",
+      "namespace": "public"
+    },
+    "lesson": {
+      "model": "Lesson",
+      "namespace": "public"
+    },
+    "parent": {
+      "model": "Parent",
+      "namespace": "public"
+    },
+    "result": {
+      "model": "Result",
+      "namespace": "public"
+    },
+    "student": {
+      "model": "Student",
+      "namespace": "public"
+    },
+    "subject": {
+      "model": "Subject",
+      "namespace": "public"
+    },
+    "subjectTeacher": {
+      "model": "SubjectTeacher",
+      "namespace": "public"
+    },
+    "teacher": {
+      "model": "Teacher",
       "namespace": "public"
     }
   },
   "domain": {
     "namespaces": {
       "public": {
-        "models": {
-          "Post": {
-            "fields": {
-              "authorId": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/int4@1",
-                  "kind": "scalar"
-                }
+        "enum": {
+          "Day": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "MONDAY",
+                "value": "MONDAY"
               },
-              "content": {
-                "nullable": true,
+              {
+                "name": "TUESDAY",
+                "value": "TUESDAY"
+              },
+              {
+                "name": "WEDNESDAY",
+                "value": "WEDNESDAY"
+              },
+              {
+                "name": "THURSDAY",
+                "value": "THURSDAY"
+              },
+              {
+                "name": "FRIDAY",
+                "value": "FRIDAY"
+              }
+            ]
+          },
+          "UserSex": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "MALE",
+                "value": "MALE"
+              },
+              {
+                "name": "FEMALE",
+                "value": "FEMALE"
+              }
+            ]
+          }
+        },
+        "models": {
+          "Admin": {
+            "fields": {
+              "id": {
+                "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
               },
-              "createdAt": {
+              "username": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "id": {
+                  "column": "id"
+                },
+                "username": {
+                  "column": "username"
+                }
+              },
+              "namespaceId": "public",
+              "table": "admin"
+            }
+          },
+          "Announcement": {
+            "fields": {
+              "classId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "date": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "description": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
               },
@@ -53,70 +176,244 @@
                   "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
-              },
-              "updatedAt": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/timestamptz-string@1",
-                  "kind": "scalar"
-                }
               }
             },
             "relations": {
-              "author": {
+              "class": {
                 "cardinality": "N:1",
                 "on": {
                   "localFields": [
-                    "authorId"
+                    "classId"
                   ],
                   "targetFields": [
                     "id"
                   ]
                 },
                 "to": {
-                  "model": "User",
+                  "model": "Class",
                   "namespace": "public"
                 }
               }
             },
             "storage": {
               "fields": {
-                "authorId": {
-                  "column": "authorId"
+                "classId": {
+                  "column": "classId"
                 },
-                "content": {
-                  "column": "content"
+                "date": {
+                  "column": "date"
                 },
-                "createdAt": {
-                  "column": "createdAt"
+                "description": {
+                  "column": "description"
                 },
                 "id": {
                   "column": "id"
                 },
                 "title": {
                   "column": "title"
-                },
-                "updatedAt": {
-                  "column": "updatedAt"
                 }
               },
               "namespaceId": "public",
-              "table": "post"
+              "table": "announcement"
             }
           },
-          "User": {
+          "Assignment": {
             "fields": {
-              "createdAt": {
+              "dueDate": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               },
-              "email": {
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lessonId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "startDate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "title": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "lesson": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "lessonId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Lesson",
+                  "namespace": "public"
+                }
+              },
+              "results": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "assignmentId"
+                  ]
+                },
+                "to": {
+                  "model": "Result",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "dueDate": {
+                  "column": "dueDate"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "lessonId": {
+                  "column": "lessonId"
+                },
+                "startDate": {
+                  "column": "startDate"
+                },
+                "title": {
+                  "column": "title"
+                }
+              },
+              "namespaceId": "public",
+              "table": "assignment"
+            }
+          },
+          "Attendance": {
+            "fields": {
+              "date": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lessonId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "present": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "studentId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "lesson": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "lessonId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Lesson",
+                  "namespace": "public"
+                }
+              },
+              "student": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "studentId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Student",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "date": {
+                  "column": "date"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "lessonId": {
+                  "column": "lessonId"
+                },
+                "present": {
+                  "column": "present"
+                },
+                "studentId": {
+                  "column": "studentId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "attendance"
+            }
+          },
+          "Class": {
+            "fields": {
+              "capacity": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "gradeId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
                   "kind": "scalar"
                 }
               },
@@ -128,20 +425,13 @@
                 }
               },
               "name": {
-                "nullable": true,
+                "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
               },
-              "updatedAt": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/timestamptz-string@1",
-                  "kind": "scalar"
-                }
-              },
-              "username": {
+              "supervisorId": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -150,24 +440,629 @@
               }
             },
             "relations": {
-              "posts": {
+              "announcements": {
                 "cardinality": "1:N",
                 "on": {
                   "localFields": [
                     "id"
                   ],
                   "targetFields": [
-                    "authorId"
+                    "classId"
                   ]
                 },
                 "to": {
-                  "model": "Post",
+                  "model": "Announcement",
+                  "namespace": "public"
+                }
+              },
+              "events": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "classId"
+                  ]
+                },
+                "to": {
+                  "model": "Event",
+                  "namespace": "public"
+                }
+              },
+              "grade": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "gradeId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Grade",
+                  "namespace": "public"
+                }
+              },
+              "lessons": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "classId"
+                  ]
+                },
+                "to": {
+                  "model": "Lesson",
+                  "namespace": "public"
+                }
+              },
+              "students": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "classId"
+                  ]
+                },
+                "to": {
+                  "model": "Student",
+                  "namespace": "public"
+                }
+              },
+              "supervisor": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "supervisorId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Teacher",
                   "namespace": "public"
                 }
               }
             },
             "storage": {
               "fields": {
+                "capacity": {
+                  "column": "capacity"
+                },
+                "gradeId": {
+                  "column": "gradeId"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "name": {
+                  "column": "name"
+                },
+                "supervisorId": {
+                  "column": "supervisorId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "class"
+            }
+          },
+          "Event": {
+            "fields": {
+              "classId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "description": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "endTime": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "startTime": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "title": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "class": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "classId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Class",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "classId": {
+                  "column": "classId"
+                },
+                "description": {
+                  "column": "description"
+                },
+                "endTime": {
+                  "column": "endTime"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "startTime": {
+                  "column": "startTime"
+                },
+                "title": {
+                  "column": "title"
+                }
+              },
+              "namespaceId": "public",
+              "table": "event"
+            }
+          },
+          "Exam": {
+            "fields": {
+              "endTime": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "lessonId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "startTime": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "title": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "lesson": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "lessonId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Lesson",
+                  "namespace": "public"
+                }
+              },
+              "results": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "examId"
+                  ]
+                },
+                "to": {
+                  "model": "Result",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "endTime": {
+                  "column": "endTime"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "lessonId": {
+                  "column": "lessonId"
+                },
+                "startTime": {
+                  "column": "startTime"
+                },
+                "title": {
+                  "column": "title"
+                }
+              },
+              "namespaceId": "public",
+              "table": "exam"
+            }
+          },
+          "Grade": {
+            "fields": {
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "level": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "classes": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "gradeId"
+                  ]
+                },
+                "to": {
+                  "model": "Class",
+                  "namespace": "public"
+                }
+              },
+              "students": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "gradeId"
+                  ]
+                },
+                "to": {
+                  "model": "Student",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "id": {
+                  "column": "id"
+                },
+                "level": {
+                  "column": "level"
+                }
+              },
+              "namespaceId": "public",
+              "table": "grade"
+            }
+          },
+          "Lesson": {
+            "fields": {
+              "classId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "day": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "Day",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "endTime": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "startTime": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "subjectId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "teacherId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "assignments": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "lessonId"
+                  ]
+                },
+                "to": {
+                  "model": "Assignment",
+                  "namespace": "public"
+                }
+              },
+              "attendances": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "lessonId"
+                  ]
+                },
+                "to": {
+                  "model": "Attendance",
+                  "namespace": "public"
+                }
+              },
+              "class": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "classId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Class",
+                  "namespace": "public"
+                }
+              },
+              "exams": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "lessonId"
+                  ]
+                },
+                "to": {
+                  "model": "Exam",
+                  "namespace": "public"
+                }
+              },
+              "subject": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "subjectId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Subject",
+                  "namespace": "public"
+                }
+              },
+              "teacher": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "teacherId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Teacher",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "classId": {
+                  "column": "classId"
+                },
+                "day": {
+                  "column": "day"
+                },
+                "endTime": {
+                  "column": "endTime"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "name": {
+                  "column": "name"
+                },
+                "startTime": {
+                  "column": "startTime"
+                },
+                "subjectId": {
+                  "column": "subjectId"
+                },
+                "teacherId": {
+                  "column": "teacherId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "lesson"
+            }
+          },
+          "Parent": {
+            "fields": {
+              "address": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "email": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "phone": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "surname": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "username": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "students": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "parentId"
+                  ]
+                },
+                "to": {
+                  "model": "Student",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "address": {
+                  "column": "address"
+                },
                 "createdAt": {
                   "column": "createdAt"
                 },
@@ -180,15 +1075,655 @@
                 "name": {
                   "column": "name"
                 },
-                "updatedAt": {
-                  "column": "updatedAt"
+                "phone": {
+                  "column": "phone"
+                },
+                "surname": {
+                  "column": "surname"
                 },
                 "username": {
                   "column": "username"
                 }
               },
               "namespaceId": "public",
-              "table": "user"
+              "table": "parent"
+            }
+          },
+          "Result": {
+            "fields": {
+              "assignmentId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "examId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "score": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "studentId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "assignment": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "assignmentId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Assignment",
+                  "namespace": "public"
+                }
+              },
+              "exam": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "examId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Exam",
+                  "namespace": "public"
+                }
+              },
+              "student": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "studentId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Student",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "assignmentId": {
+                  "column": "assignmentId"
+                },
+                "examId": {
+                  "column": "examId"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "score": {
+                  "column": "score"
+                },
+                "studentId": {
+                  "column": "studentId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "result"
+            }
+          },
+          "Student": {
+            "fields": {
+              "address": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "bloodType": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "classId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "email": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "gradeId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "img": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "parentId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "phone": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "sex": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "UserSex",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "surname": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "username": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "attendances": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "studentId"
+                  ]
+                },
+                "to": {
+                  "model": "Attendance",
+                  "namespace": "public"
+                }
+              },
+              "class": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "classId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Class",
+                  "namespace": "public"
+                }
+              },
+              "grade": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "gradeId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Grade",
+                  "namespace": "public"
+                }
+              },
+              "parent": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "parentId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Parent",
+                  "namespace": "public"
+                }
+              },
+              "results": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "studentId"
+                  ]
+                },
+                "to": {
+                  "model": "Result",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "address": {
+                  "column": "address"
+                },
+                "bloodType": {
+                  "column": "bloodType"
+                },
+                "classId": {
+                  "column": "classId"
+                },
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "email": {
+                  "column": "email"
+                },
+                "gradeId": {
+                  "column": "gradeId"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "img": {
+                  "column": "img"
+                },
+                "name": {
+                  "column": "name"
+                },
+                "parentId": {
+                  "column": "parentId"
+                },
+                "phone": {
+                  "column": "phone"
+                },
+                "sex": {
+                  "column": "sex"
+                },
+                "surname": {
+                  "column": "surname"
+                },
+                "username": {
+                  "column": "username"
+                }
+              },
+              "namespaceId": "public",
+              "table": "student"
+            }
+          },
+          "Subject": {
+            "fields": {
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "lessons": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "subjectId"
+                  ]
+                },
+                "to": {
+                  "model": "Lesson",
+                  "namespace": "public"
+                }
+              },
+              "teachers": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "subjectId"
+                  ]
+                },
+                "to": {
+                  "model": "SubjectTeacher",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "id": {
+                  "column": "id"
+                },
+                "name": {
+                  "column": "name"
+                }
+              },
+              "namespaceId": "public",
+              "table": "subject"
+            }
+          },
+          "SubjectTeacher": {
+            "fields": {
+              "subjectId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "teacherId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "subject": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "subjectId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Subject",
+                  "namespace": "public"
+                }
+              },
+              "teacher": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "teacherId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "Teacher",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "subjectId": {
+                  "column": "subjectId"
+                },
+                "teacherId": {
+                  "column": "teacherId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "subjectTeacher"
+            }
+          },
+          "Teacher": {
+            "fields": {
+              "address": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "bloodType": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "email": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "img": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "phone": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "sex": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "UserSex",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "surname": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "username": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "classes": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "supervisorId"
+                  ]
+                },
+                "to": {
+                  "model": "Class",
+                  "namespace": "public"
+                }
+              },
+              "lessons": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "teacherId"
+                  ]
+                },
+                "to": {
+                  "model": "Lesson",
+                  "namespace": "public"
+                }
+              },
+              "subjects": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "teacherId"
+                  ]
+                },
+                "to": {
+                  "model": "SubjectTeacher",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "address": {
+                  "column": "address"
+                },
+                "bloodType": {
+                  "column": "bloodType"
+                },
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "email": {
+                  "column": "email"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "img": {
+                  "column": "img"
+                },
+                "name": {
+                  "column": "name"
+                },
+                "phone": {
+                  "column": "phone"
+                },
+                "sex": {
+                  "column": "sex"
+                },
+                "surname": {
+                  "column": "surname"
+                },
+                "username": {
+                  "column": "username"
+                }
+              },
+              "namespaceId": "public",
+              "table": "teacher"
             }
           }
         }
@@ -200,25 +1735,49 @@
       "public": {
         "entries": {
           "table": {
-            "post": {
+            "admin": {
               "columns": {
-                "authorId": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
-                  "nullable": false
-                },
-                "content": {
+                "id": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
+                  "nullable": false
+                },
+                "username": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "username"
+                  ]
+                }
+              ]
+            },
+            "announcement": {
+              "columns": {
+                "classId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
                   "nullable": true
                 },
-                "createdAt": {
+                "date": {
                   "codecId": "pg/timestamptz-string@1",
-                  "default": {
-                    "expression": "now()",
-                    "kind": "function"
-                  },
                   "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "description": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
                   "nullable": false
                 },
                 "id": {
@@ -234,38 +1793,33 @@
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": false
-                },
-                "updatedAt": {
-                  "codecId": "pg/timestamptz-string@1",
-                  "nativeType": "timestamptz",
-                  "nullable": false
                 }
               },
               "foreignKeys": [
                 {
                   "source": {
                     "columns": [
-                      "authorId"
+                      "classId"
                     ],
                     "namespaceId": "public",
-                    "tableName": "post"
+                    "tableName": "announcement"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "user"
+                    "tableName": "class"
                   }
                 }
               ],
               "indexes": [
                 {
                   "columns": [
-                    "authorId"
+                    "classId"
                   ],
-                  "name": "post_authorId_idx_e47547ed",
-                  "prefix": "post_authorId_idx",
+                  "name": "announcement_classId_idx_0089e5e7",
+                  "prefix": "announcement_classId_idx",
                   "unique": false
                 }
               ],
@@ -276,20 +1830,174 @@
               },
               "uniques": []
             },
-            "user": {
+            "assignment": {
               "columns": {
-                "createdAt": {
+                "dueDate": {
                   "codecId": "pg/timestamptz-string@1",
-                  "default": {
-                    "expression": "now()",
-                    "kind": "function"
-                  },
                   "nativeType": "timestamptz",
                   "nullable": false
                 },
-                "email": {
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "lessonId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "startDate": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "title": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "lessonId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "assignment"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "lesson"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "lessonId"
+                  ],
+                  "name": "assignment_lessonId_idx_e358970d",
+                  "prefix": "assignment_lessonId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
+            "attendance": {
+              "columns": {
+                "date": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "lessonId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "present": {
+                  "codecId": "pg/bool@1",
+                  "nativeType": "bool",
+                  "nullable": false
+                },
+                "studentId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "studentId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "attendance"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "student"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "lessonId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "attendance"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "lesson"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "lessonId"
+                  ],
+                  "name": "attendance_lessonId_idx_e358970d",
+                  "prefix": "attendance_lessonId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "studentId"
+                  ],
+                  "name": "attendance_studentId_idx_bf255322",
+                  "prefix": "attendance_studentId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
+            "class": {
+              "columns": {
+                "capacity": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "gradeId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
                   "nullable": false
                 },
                 "id": {
@@ -304,17 +2012,233 @@
                 "name": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
+                  "nullable": false
+                },
+                "supervisorId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "supervisorId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "class"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "teacher"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "gradeId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "class"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "grade"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "gradeId"
+                  ],
+                  "name": "class_gradeId_idx_624f4a73",
+                  "prefix": "class_gradeId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "supervisorId"
+                  ],
+                  "name": "class_supervisorId_idx_fe423ed5",
+                  "prefix": "class_supervisorId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "name"
+                  ]
+                }
+              ]
+            },
+            "event": {
+              "columns": {
+                "classId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
                   "nullable": true
                 },
-                "updatedAt": {
+                "description": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "endTime": {
                   "codecId": "pg/timestamptz-string@1",
                   "nativeType": "timestamptz",
                   "nullable": false
                 },
-                "username": {
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "startTime": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "title": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
-                  "nullable": true
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "classId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "event"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "class"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "classId"
+                  ],
+                  "name": "event_classId_idx_0089e5e7",
+                  "prefix": "event_classId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
+            "exam": {
+              "columns": {
+                "endTime": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "lessonId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "startTime": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "title": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "lessonId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "exam"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "lesson"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "lessonId"
+                  ],
+                  "name": "exam_lessonId_idx_e358970d",
+                  "prefix": "exam_lessonId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
+            "grade": {
+              "columns": {
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "level": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
                 }
               },
               "foreignKeys": [],
@@ -327,9 +2251,752 @@
               "uniques": [
                 {
                   "columns": [
-                    "email"
+                    "level"
                   ]
                 }
+              ]
+            },
+            "lesson": {
+              "checks": [
+                {
+                  "expression": "\"day\" IN ('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY')",
+                  "name": "lesson_day_check_87ff5c3a",
+                  "prefix": "lesson_day_check"
+                }
+              ],
+              "columns": {
+                "classId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "day": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "Day",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "endTime": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "startTime": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "subjectId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "teacherId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "subjectId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "lesson"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "subject"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "classId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "lesson"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "class"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "teacherId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "lesson"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "teacher"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "classId"
+                  ],
+                  "name": "lesson_classId_idx_0089e5e7",
+                  "prefix": "lesson_classId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "subjectId"
+                  ],
+                  "name": "lesson_subjectId_idx_84df2a1d",
+                  "prefix": "lesson_subjectId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "teacherId"
+                  ],
+                  "name": "lesson_teacherId_idx_bc266660",
+                  "prefix": "lesson_teacherId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
+            "parent": {
+              "columns": {
+                "address": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "createdAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "email": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "phone": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "surname": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "username": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "username"
+                  ]
+                },
+                {
+                  "columns": [
+                    "email"
+                  ]
+                },
+                {
+                  "columns": [
+                    "phone"
+                  ]
+                }
+              ]
+            },
+            "result": {
+              "columns": {
+                "assignmentId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "examId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "score": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "studentId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "examId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "result"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "exam"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "assignmentId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "result"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "assignment"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "studentId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "result"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "student"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "assignmentId"
+                  ],
+                  "name": "result_assignmentId_idx_8cfb4ac4",
+                  "prefix": "result_assignmentId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "examId"
+                  ],
+                  "name": "result_examId_idx_a57bdadd",
+                  "prefix": "result_examId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "studentId"
+                  ],
+                  "name": "result_studentId_idx_bf255322",
+                  "prefix": "result_studentId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
+            "student": {
+              "checks": [
+                {
+                  "expression": "\"sex\" IN ('MALE', 'FEMALE')",
+                  "name": "student_sex_check_0c53a478",
+                  "prefix": "student_sex_check"
+                }
+              ],
+              "columns": {
+                "address": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "bloodType": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "classId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "createdAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "email": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "gradeId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "img": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "parentId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "phone": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "sex": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "UserSex",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "surname": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "username": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "parentId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "student"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "parent"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "classId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "student"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "class"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "gradeId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "student"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "grade"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "classId"
+                  ],
+                  "name": "student_classId_idx_0089e5e7",
+                  "prefix": "student_classId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "gradeId"
+                  ],
+                  "name": "student_gradeId_idx_624f4a73",
+                  "prefix": "student_gradeId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "parentId"
+                  ],
+                  "name": "student_parentId_idx_6a68f597",
+                  "prefix": "student_parentId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "username"
+                  ]
+                },
+                {
+                  "columns": [
+                    "email"
+                  ]
+                },
+                {
+                  "columns": [
+                    "phone"
+                  ]
+                }
+              ]
+            },
+            "subject": {
+              "columns": {
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "name"
+                  ]
+                }
+              ]
+            },
+            "subjectTeacher": {
+              "columns": {
+                "subjectId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "teacherId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "subjectId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "subjectTeacher"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "subject"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "teacherId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "subjectTeacher"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "teacher"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "subjectId"
+                  ],
+                  "name": "subjectTeacher_subjectId_idx_84df2a1d",
+                  "prefix": "subjectTeacher_subjectId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "teacherId"
+                  ],
+                  "name": "subjectTeacher_teacherId_idx_bc266660",
+                  "prefix": "subjectTeacher_teacherId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "subjectId",
+                  "teacherId"
+                ]
+              },
+              "uniques": []
+            },
+            "teacher": {
+              "checks": [
+                {
+                  "expression": "\"sex\" IN ('MALE', 'FEMALE')",
+                  "name": "teacher_sex_check_0c53a478",
+                  "prefix": "teacher_sex_check"
+                }
+              ],
+              "columns": {
+                "address": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "bloodType": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "createdAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "email": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "img": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "phone": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "sex": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "UserSex",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "surname": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "username": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "username"
+                  ]
+                },
+                {
+                  "columns": [
+                    "email"
+                  ]
+                },
+                {
+                  "columns": [
+                    "phone"
+                  ]
+                }
+              ]
+            }
+          },
+          "valueSet": {
+            "Day": {
+              "kind": "valueSet",
+              "values": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY"
+              ]
+            },
+            "UserSex": {
+              "kind": "valueSet",
+              "values": [
+                "MALE",
+                "FEMALE"
               ]
             }
           }
@@ -338,44 +3005,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "1e8412e162dbbe69f4bb3bf8d07f0280ae67eaab15c34dcf201e67468315428d"
-  },
-  "execution": {
-    "executionHash": "4abff323cc88151ef9c9a0ec90122cfee6d46814a118cdb66a9fdd94a4123463",
-    "mutations": {
-      "defaults": [
-        {
-          "onCreate": {
-            "id": "timestampNow",
-            "kind": "generator"
-          },
-          "onUpdate": {
-            "id": "timestampNow",
-            "kind": "generator"
-          },
-          "ref": {
-            "column": "updatedAt",
-            "namespace": "public",
-            "table": "post"
-          }
-        },
-        {
-          "onCreate": {
-            "id": "timestampNow",
-            "kind": "generator"
-          },
-          "onUpdate": {
-            "id": "timestampNow",
-            "kind": "generator"
-          },
-          "ref": {
-            "column": "updatedAt",
-            "namespace": "public",
-            "table": "user"
-          }
-        }
-      ]
-    }
+    "storageHash": "8619bc91f4f4397ac6e9ce755eac2b3a7d6663d0ae5bb1c0466f3e429d884e36"
   },
   "capabilities": {
     "postgres": {
